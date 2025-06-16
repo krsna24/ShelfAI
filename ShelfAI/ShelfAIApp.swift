@@ -59,6 +59,8 @@ struct BookshelfApp: App {
             .tint(.accentColor)
             .environmentObject(library)
 //            .preferredColorScheme(library.appSettings.colorScheme)
+            .preferredColorScheme(library.appSettings.colorScheme?.systemColorScheme) // Apply color scheme
+            .environment(\.sizeCategory, library.appSettings.sizeCategory) // For adjusting font size
             .onAppear {
                 setupAppearance()
             }

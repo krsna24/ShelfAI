@@ -88,4 +88,3 @@ struct ProfileView: View {
         }
     }
 }
-

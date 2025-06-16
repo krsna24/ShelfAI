@@ -1,3 +1,10 @@
+//
+//  ContentView.swift
+//  ShelfAI
+//
+//  Created by Krsna  on 5/25/25.
+//
+
 import SwiftUI
 import Combine
 
@@ -13,14 +20,6 @@ struct SectionHeader: View {
             
             Spacer()
             
-            if showSeeAll {
-                NavigationLink("See All") {
-                    Text("All \(title) books")
-                        .navigationTitle(title)
-                }
-                .padding(.horizontal)
-                .font(.subheadline)
-            }
         }
     }
 }

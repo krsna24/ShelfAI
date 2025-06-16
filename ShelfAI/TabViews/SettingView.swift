@@ -10,20 +10,20 @@ import SwiftUI
 struct SettingsView: View {
     @EnvironmentObject var vm: LibraryViewModel
     @Environment(\.dismiss) var dismiss
+    @Binding var settings: AppSettings // Add binding
+    @Binding var readingGoal: ReadingGoal // Add binding
     
     var body: some View {
         NavigationStack {
             Form {
                 Section("Appearance") {
-                    Picker("Color Scheme", selection: $vm.appSettings.colorScheme) {
+                    Picker("Color Scheme", selection: $settings.colorScheme) {
                         Text("Light").tag(AppSettings.ColorScheme.light)
                         Text("Dark").tag(AppSettings.ColorScheme.dark)
                         Text("System").tag(AppSettings.ColorScheme.system)
-                    }
+                    }.pickerStyle(.segmented)
                     
-                    Stepper("Font Size: \(Int(vm.appSettings.preferredFontSize))",
-                           value: $vm.appSettings.preferredFontSize,
-                           in: 14...24)
+                    Stepper("Font Size: \(Int(settings.preferredFontSize))",value: $settings.preferredFontSize,in: 14...24).pickerStyle(.segmented)
                     
                     Toggle("Show Reading Progress", isOn: $vm.appSettings.showReadingProgress)
                 }
@@ -36,8 +36,8 @@ struct SettingsView: View {
                     }
                     
                     Stepper("Target: \(vm.readingGoal.target) books",
-                           value: $vm.readingGoal.target,
-                           in: 1...100)
+                            value: $vm.readingGoal.target,
+                            in: 1...100)
                 }
                 
                 Section("Account") {
@@ -45,23 +45,18 @@ struct SettingsView: View {
                     Toggle("Sync with iCloud", isOn: $vm.appSettings.syncWithCloud)
                 }
                 
-                Section {
-                    Button("Export Library Data") {
-                        // Export functionality would go here
-                    }
-                    
-                    Button("Reset Reading Goal", role: .destructive) {
-                        vm.resetReadingGoal()
-                    }
+                
+                
+                Button("Reset Reading Goal", role: .destructive) {
                 }
             }
-            .navigationTitle("Settings")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") {
-                        dismiss()
-                    }
+        }
+        .navigationTitle("Settings")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button("Done") {
+                    dismiss()
                 }
             }
         }

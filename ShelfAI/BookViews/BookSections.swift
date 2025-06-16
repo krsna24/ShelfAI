@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+
 struct BookSection: View {
     let title: String
     let books: [Book]
@@ -43,4 +44,3 @@ struct BookSection: View {
         }
     }
 }
-

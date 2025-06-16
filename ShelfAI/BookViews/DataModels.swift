@@ -31,7 +31,7 @@ struct Book: Identifiable, Hashable, Codable {
     
     enum BookStatus: String, Codable, CaseIterable {
         case available, checkedOut, overdue, reserved
-        
+
         var displayName: String {
             switch self {
             case .available: return "Available"
@@ -40,7 +40,7 @@ struct Book: Identifiable, Hashable, Codable {
             case .reserved: return "Reserved"
             }
         }
-        
+
         var color: Color {
             switch self {
             case .available: return .green
@@ -63,30 +63,22 @@ struct Book: Identifiable, Hashable, Codable {
     
     var formattedPublishedDate: String {
         guard let publishedDate = publishedDate else { return "Unknown" }
-        if let year = Int(publishedDate.prefix(4)) {
-            return "\(year)"
-        }
-        return publishedDate
+        return publishedDate.prefix(4).description
     }
     
     var daysUntilDue: Int? {
         guard let dueDate = dueDate else { return nil }
         return Calendar.current.dateComponents([.day], from: Date(), to: dueDate).day
     }
-    
-    var formattedDueDate: String {
-        guard let dueDate = dueDate else { return "" }
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        return formatter.string(from: dueDate)
-    }
 }
+
+
 
 struct ReadingGoal: Codable {
     var target: Int
     var current: Int
     var timeFrame: TimeFrame
-    
+
     enum TimeFrame: String, Codable, CaseIterable {
         case weekly, monthly, yearly
         
@@ -116,6 +108,21 @@ struct AppSettings: Codable {
             case .dark: return .dark
             case .system: return nil
             }
+        }
+    }
+}
+
+// DataModels.swift
+extension AppSettings {
+    var sizeCategory: ContentSizeCategory {
+        switch preferredFontSize {
+        case 14: return .extraSmall
+        case 16: return .medium
+        case 18: return .large
+        case 20: return .extraLarge
+        case 22: return .extraExtraLarge
+        case 24: return .extraExtraExtraLarge
+        default: return .medium
         }
     }
 }
